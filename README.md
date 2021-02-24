@@ -1,5 +1,5 @@
 # QuobileNet
-MobileNetV2-based Hybrid Quantum-Classical Object Detector
+A MobileNetV2-based Hybrid Quantum-Classical Object Detector. For instructions on how to run, please see below.
 
 Our project aims to create a hybrid model of popular object detection networks. Primarily, we are focusing on RetinaNet with a MobileNet (and possibly ResNet-18) feature extraction backbone. Our goal is to introduce quantum layers and measure various performance statistics such as mean Average Precision (mAP) and the number of epochs taken to reach a comparable Loss value.
 
@@ -13,3 +13,21 @@ As a first step we built a Hybrid CNN model to performa a 3-class classification
   <img src="media/validation_loss.png" width="500" />
   <img src="media/validation_acc.png" width="500" /> 
 </p>
+
+## Instructions
+### To Run the Hybrid Version of SimpleNet (i.e. QuanvNet)
+```
+python main.py
+```
+The above will run the network on your local CPU. The following flags can modify the run:
+
+`--floq_key *YOUR FLOQ API KEY*` will enable the use of Floq if applicable.
+
+`--classical` will switch the backbone to the pure classical verion (SimpleNet)
+
+`--gpu` will use your GPUs.
+
+For example, to run our network on the floq device and use GPUs:
+```
+python main.py --gpu --floq_key *YOUR FLOQ API KEY*
+```
