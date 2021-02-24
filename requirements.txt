@@ -1,0 +1,7 @@
+pennylane==0.14.1
+networkx==2.4
+numpy==1.19.5
+pennylane-cirq==0.14.0
+marshmallow-enum
+marshmallow
+requests
