@@ -25,7 +25,8 @@ class Quanv(nn.Module):
 
         self.circuit_layers = circuit_layers # circuit layers
 
-        if 26 <= self.n_qubits <= 32:  # If it meets the requirement for Floq, use it.
+        if (floq_key is not None) and (26 <= self.n_qubits <= 32):  # If it meets the requirement for Floq, use it.
+            print("Using Floq as PennyLane Device")
             API_KEY = floq_key
             sim = remote_cirq.RemoteSimulator(API_KEY)
 
@@ -34,6 +35,7 @@ class Quanv(nn.Module):
                              simulator=sim,
                              analytic=False)
         else:
+            print("Using Local Hardware as PennyLane Device")
             dev = qml.device("default.qubit", wires=self.n_qubits)
 
 

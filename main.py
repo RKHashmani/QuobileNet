@@ -1,6 +1,7 @@
 import os
 import time
 import argparse
+import builtins
 
 import torch
 import torch.nn as nn
@@ -8,15 +9,14 @@ import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 
 # Import the network/backbones to be used
-from networks.backbones.SimpleNet import SimpleNet
-# from networks.backbones.QuanvNet import SimpleNet
+# from networks.backbones.SimpleNet import SimpleNet
+from networks.backbones.QuanvNet import SimpleNet
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--floq_key', default=None, type=str, help='Your Floq Api Key')
 parser = parser.parse_args()
 
-floq_key = parser.floq_key
-
+builtins.floq_key = parser.floq_key
 
 def test():
     # Testing
@@ -111,7 +111,7 @@ try:
 except OSError:
     pass
 
-test()
+# test()
 
 for epoch in range(num_epochs):
     for i, (images, labels) in enumerate(train_loader):
