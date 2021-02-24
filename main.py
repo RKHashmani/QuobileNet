@@ -14,28 +14,31 @@ from networks.backbones.QuanvNet import QuanvNet
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--floq_key', default=None, type=str, help='Your Floq Api Key')
-parser.add_argument('--classical', action='store_true', help='Use this argument to switch to the pure classical backbone.')
+parser.add_argument('--classical', action='store_true',
+                    help='Use this argument to switch to the pure classical backbone.')
+parser.add_argument('--gpu', action='store_true', help='Use this argument to allow the use of GPUs.')
 parser = parser.parse_args()
 
 builtins.floq_key = parser.floq_key
+
 
 def test():
     # Testing
     t0 = time.time()
     correct = 0
     total = 0
-    avg_loss = 0 
+    avg_loss = 0
     num_samples = 1000
     for i, (images, labels) in enumerate(train_loader):
         if i == num_samples:
             break
-    
+
         images = images.to(device)
         labels = labels.to(device)
 
-        if labels.item()==6:
+        if labels.item() == 6:
             labels = torch.tensor([1])
-        if labels.item()==9:
+        if labels.item() == 9:
             labels = torch.tensor([2])
 
         out = net(images)
@@ -45,20 +48,20 @@ def test():
         correct += (predicted_labels == labels).sum()
         total += labels.size(0)
 
-    avg_loss = avg_loss / num_samples 
+    avg_loss = avg_loss / num_samples
 
     with open('tools/eval_stats/log_validation.csv', 'a') as f:
-        f.write('%.4f, %.4f\n' %((100.0 * correct) / (total + 1), avg_loss))
+        f.write('%.4f, %.4f\n' % ((100.0 * correct) / (total + 1), avg_loss))
 
     print('Percent correct: %.3f' % ((100.0 * correct) / (total + 1)))
 
-    print('Loss: %.4f' %avg_loss)
+    print('Loss: %.4f' % avg_loss)
 
     print("---Testing took %s seconds ---" % (time.time() - t0))
 
-# Define the "device". If GPU is available, device is set to use it, otherwise CPU will be used. 
-#device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-device = torch.device('cpu')
+
+# If the GPU flag is passed and a GPU is available, device is set to use it, otherwise CPU will be used
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu') if parser.gpu else torch.device('cpu')
 
 # To randomly transform the image.
 rand_transform = transforms.Compose([transforms.RandomChoice([
@@ -95,8 +98,7 @@ else:
 
 net = SimpleNet().to(device) if parser.classical else QuanvNet().to(device)
 
-
-#print(net)
+# print(net)
 
 # Preparation for training
 loss_fun = nn.CrossEntropyLoss()
@@ -119,7 +121,7 @@ try:
 except OSError:
     pass
 
-# test()
+test()
 
 for epoch in range(num_epochs):
     for i, (images, labels) in enumerate(train_loader):
@@ -127,10 +129,10 @@ for epoch in range(num_epochs):
             break
         images = images.to(device)
         labels = labels.to(device)
-        
-        if labels.item()==6:
+
+        if labels.item() == 6:
             labels = torch.tensor([1])
-        if labels.item()==9:
+        if labels.item() == 9:
             labels = torch.tensor([2])
 
         optimizer.zero_grad()
@@ -140,7 +142,7 @@ for epoch in range(num_epochs):
         loss.backward()
         optimizer.step()
 
-        if (i+1)%(num_iters_per_epoch//N_TEST)==0:
+        if (i + 1) % (num_iters_per_epoch // N_TEST) == 0:
             test()
 
         if (i + 1) % (num_iters_per_epoch // 10) == 0:
@@ -158,5 +160,3 @@ for epoch in range(num_epochs):
 
 train_time = time.time()
 print("---Training took %s seconds ---" % (train_time - start_time))
-
-
