@@ -53,11 +53,9 @@ def test():
     with open('tools/eval_stats/log_validation.csv', 'a') as f:
         f.write('%.4f, %.4f\n' % ((100.0 * correct) / (total + 1), avg_loss))
 
-    print('Percent correct: %.3f' % ((100.0 * correct) / (total + 1)))
+    print('Percent Accuracy: %.3f, Loss: %.4f ' % (((100.0 * correct) / (total + 1)), avg_loss))
 
-    print('Loss: %.4f' % avg_loss)
-
-    print("---Testing took %s seconds ---" % (time.time() - t0))
+    # print("---Testing took %s seconds ---" % (time.time() - t0))
 
 
 # If the GPU flag is passed and a GPU is available, device is set to use it, otherwise CPU will be used
@@ -121,9 +119,13 @@ try:
 except OSError:
     pass
 
+print("Performing Initial Testing")
 test()
 
+print("Beginning Training")
+
 for epoch in range(num_epochs):
+    epoch_time = time.time()
     for i, (images, labels) in enumerate(train_loader):
         if i == num_iters_per_epoch:
             break
@@ -143,11 +145,11 @@ for epoch in range(num_epochs):
         optimizer.step()
 
         if (i + 1) % (num_iters_per_epoch // N_TEST) == 0:
-            test()
-
-        if (i + 1) % (num_iters_per_epoch // 10) == 0:
             print('Epoch [%d/%d], Step [%d/%d]'
                   % (epoch + 1, num_epochs, i + 1, num_iters_per_epoch))
+            test()
+            print("------------------------------")
+    print("---Epoch %s took %s seconds ---" % (epoch + 1, (time.time() - epoch_time)))
 
     print("Saving Checkpoint for Epoch", epoch + 1)
     state = {
@@ -156,7 +158,6 @@ for epoch in range(num_epochs):
         'optimizer': optimizer.state_dict()
     }
     torch.save(state, 'pretrained_models/QuanvNet-epoch_{}.pt'.format(epoch + 1))
-    print("---Epoch Time: %s seconds ---" % (time.time() - start_time))
 
 train_time = time.time()
-print("---Training took %s seconds ---" % (train_time - start_time))
+print("\n---Total Training took %s seconds ---" % (train_time - start_time))
