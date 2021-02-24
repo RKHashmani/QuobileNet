@@ -12,8 +12,8 @@ We plan to replace key convolutional layers within RetinaNet with our custom qua
 As an initial step, we built a simple Hybrid CNN model with 4 convolutional layers to perform a 3-class classification task using the MNIST dataset (0, 6, and 9 are chosen as our labels). We replaced one of the classical convolution layers with our custom-built Quanvolutional layer and made two initial tests where `quantum-1` uses a Parametrized Quantum Circuit with a depth of 1 and `quantum-2` uses the same but with a depth of 2. Although our initial results do not show an improvement over the classical method, they carry the potential to achieve better accuracies. As we can see from the learning curve of `quantum-1`, the model has not reached to a convergence yet and we need to run the model for more epochs. Therefore, we wish to use Floq for the more extensive tests and AWS to test the inference potential of such a hybrid network in NISQ devices.
 
 <p float="middle">
-  <img src="png/validation_loss.png" width="472" />
-  <img src="png/validation_acc.png" width="472" /> 
+  <img src="png/validation_loss.png" width="470" />
+  <img src="png/validation_acc.png" width="470" /> 
 </p>
 
 ## Instructions
