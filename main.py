@@ -9,11 +9,12 @@ import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 
 # Import the network/backbones to be used
-# from networks.backbones.SimpleNet import SimpleNet
-from networks.backbones.QuanvNet import SimpleNet
+from networks.backbones.SimpleNet import SimpleNet
+from networks.backbones.QuanvNet import QuanvNet
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--floq_key', default=None, type=str, help='Your Floq Api Key')
+parser.add_argument('--classical', action='store_true', help='Use this argument to switch to the pure classical backbone.')
 parser = parser.parse_args()
 
 builtins.floq_key = parser.floq_key
@@ -87,7 +88,14 @@ train_loader = torch.utils.data.DataLoader(dataset=train_data, batch_size=batch_
 test_loader = torch.utils.data.DataLoader(dataset=test_data, batch_size=batch_size, shuffle=False)
 
 # Loading the model
-net = SimpleNet().to(device)
+if parser.classical:
+    print("Using Classical Backbone")
+else:
+    print("Using Quantum-Classical Hybrid Backbone")
+
+net = SimpleNet().to(device) if parser.classical else QuanvNet().to(device)
+
+
 #print(net)
 
 # Preparation for training

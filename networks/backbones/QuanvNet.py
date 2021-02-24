@@ -7,9 +7,9 @@ from pennylane import numpy as np
 from networks.backbones.custom_layers.QuanvLayer import Quanv
 
 
-class SimpleNet(nn.Module):
+class QuanvNet(nn.Module):
     def __init__(self):
-        super(SimpleNet, self).__init__()
+        super(QuanvNet, self).__init__()
         # Conv Layers
         self.conv1 = nn.Conv2d(1, 10, kernel_size=5)
         self.conv2 = nn.Conv2d(10, 20, kernel_size=3)
