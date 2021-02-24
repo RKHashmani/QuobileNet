@@ -33,7 +33,7 @@ For example, to run our network on the floq device and use GPUs:
 ```
 python main.py --gpu --floq_key *YOUR FLOQ API KEY*
 ```
-## Dependencies
+### Dependencies
 Our codebase works with both `Python==3.7` and `Python==3.8`. In addition, we also use `Pytorch==1.7.1` and `torchvision==0.8.2`. The rest of the dependencies can be installed from the command line via `pip`:
 ```
 pip install -r requirements.txt
