@@ -16,10 +16,6 @@ As an initial step, we built a simple Hybrid CNN model with 4 convolutional laye
   <img src="png/validation_acc.png" width="470" /> 
 </p>
 
-Validation Loss             |  Validation Accuracy
-:-------------------------:|:-------------------------:
-![](png/validation_loss.png)  |  ![](png/validation_acc.png)
-
 ## Instructions
 ### To Run the Hybrid Version of SimpleNet (i.e. QuanvNet)
 ```
