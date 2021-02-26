@@ -3,7 +3,7 @@ import torch
 
 # import pennylane_qulacs
 
-# from networks.backbones.custom_layers.FlexibleQuanvLayer_cenk import Quanv
+from networks.backbones.custom_layers.QuanvLayer import Quanv
 
 
 class SimpleNet(nn.Module):
@@ -13,16 +13,17 @@ class SimpleNet(nn.Module):
         self.conv1 = nn.Conv2d(1, 10, kernel_size=5)
         self.conv2 = nn.Conv2d(10, 20, kernel_size=3)
         self.conv3 = nn.Conv2d(20, 5, kernel_size=1)
-        self.convALT = nn.Conv2d(5, 4, kernel_size=2) # Acts like the Quanv Layer
+
+        self.convALT = nn.Conv2d(5, 4, kernel_size=3)  # Acts like the Quanv Layer
 
         # Quanvolution Layer
         # self.Quanv1 = Quanv(kernal_size=3, output_depth=4, circuit_layers=1)
+        self.AdaptPool = nn.AdaptiveMaxPool2d(3)
 
         # Fully Connected Layers
         self.fc1 = nn.Linear(36, 12)
         self.fc2 = nn.Linear(12, 3)
 
-        self.AdaptPool = nn.AdaptiveMaxPool2d(3)
         self.pool = nn.MaxPool2d(2)
         self.relu = nn.ReLU()
         self.sigmoid = nn.Sigmoid()
