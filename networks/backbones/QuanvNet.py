@@ -18,7 +18,7 @@ class QuanvNet(nn.Module):
         self.convALT = nn.Conv2d(5, 4, kernel_size=2) # Acts like the Quanv Layer
 
         # Quanvolution Layer
-        self.Quanv1 = Quanv(kernal_size=3, output_depth=4, circuit_layers=2)
+        self.Quanv1 = Quanv(kernal_size=3, output_depth=4, circuit_layers=1)
         self.AdaptPool = nn.AdaptiveMaxPool2d(3)
 
         # Fully Connected Layers

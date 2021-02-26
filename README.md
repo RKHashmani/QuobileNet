@@ -25,7 +25,7 @@ The above will run the network on your local CPU. The following flags can modify
 
 `--floq_key *YOUR FLOQ API KEY*` will enable the use of Floq if applicable.
 
-`--classical` will switch the backbone to the pure classical version (SimpleNet)
+`--classic` will switch the backbone to the pure classical version (SimpleNet)
 
 `--gpu` will use your GPUs.
 
