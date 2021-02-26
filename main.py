@@ -103,8 +103,8 @@ loss_fun = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(net.parameters(), lr=1.e-3)
 
 # Training
-num_epochs = 5
-num_iters_per_epoch = 1000  # use only 5K iterations
+num_epochs = 10
+num_iters_per_epoch = 500  # use only 5K iterations
 N_TEST = 5
 print("Beginning Training")
 start_time = time.time()
