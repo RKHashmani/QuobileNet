@@ -13,11 +13,13 @@ The current plan is to replace key convolutional layers within RetinaNet with th
 
 ## Current Progress
 
-As an initial step, a [simple Hybrid CNN model](networks/backbones/QuanvNet.py) with 4 convolutional layers was built to perform a 3-class classification task using the MNIST dataset (0, 6, and 9 were chosen as our labels). One of the classical convolutional layers were replaced with with the custom-built [quanvolutional layer](networks/backbones/custom_layers/QuanvLayer.py) and two initial tests were made where `quantum-1` used a Parametrized Quantum Circuit with a depth of 1 and `quantum-2` used the same but with a depth of 2. Although the initial results did not show an initial improvement over the classical method, they carried the potential to achieve better accuracies. The results of these tests can be seen in the **Previous Results** column.
+As an initial step, a [simple Hybrid CNN model](networks/backbones/QuanvNet.py) with 4 convolutional layers was built to perform a 3-class classification task using the MNIST dataset (0, 6, and 9 were chosen as our labels). One of the classical convolutional layers was replaced with the custom-built [quanvolutional layer](networks/backbones/custom_layers/QuanvLayer.py) and two initial tests were made where `quantum-1` used a Parametrized Quantum Circuit with a depth of 1 and `quantum-2` used the same but with a depth of 2. Loss and accuracy curves for `quantum-1`, `quantum-2`, and the fully `classical` version were plotted. Although the results did not show an initial improvement over the classical method, they carried the potential to achieve better accuracies. The results of these tests can be seen in the **Previous Results** column.
 
-Following the initial tests, our quantum circuit was modified to allow batch sizes greater than one and the codebase was refactored to increase efficiency. In addition, a bug fix was implemented that solved the issue of `quantum-1` outperforming `quantum-2`, even though the opposite was expected on account of the increased Parametrized Quantum Circuit depth increasing the model capacity. The same test was then conducted again, but for a longer period of time, and the results can be seen in the **New Results** column. 
+Following the initial tests, our quantum circuit was modified to allow batch sizes greater than one and the codebase was refactored to increase efficiency. In addition, a bug fix was implemented that solved the issue of `quantum-1` outperforming `quantum-2`, even though the opposite was expected on account of the increased Parametrized Quantum Circuit depth increasing the model capacity. The same test was then conducted again, but for a longer period of time, the results of which can be seen in the **New Results** column.
 
-As we can see from the learning curve of `quantum-1`, the model has not reached to a convergence yet and we need to run the model for more epochs. Therefore, we wish to use Floq for the more extensive tests and AWS to test the inference potential of such a hybrid network in NISQ devices.
+When comparing the two tests, a stark improvement can be seen in our current quanvolutional layer's performance. The shape of the Loss curve is steeper for both `quantum-1` and `quantum-2`, and around epoch 5, we see a large jump in accuracy for `quantum-1` when compared to the previous results. Both `quantum-1` and `quantum-2` now more closely resemble the performance of `classical`. `quantum-2` is also now outperforming `quantum-1` for almost all the epochs after epoch 2.5. When both are compared to `classical`, `classical` still outperforms the hybrid quantum-classical versions, but both hybrid versions are approaching the scores of `classical`. 
+
+Once again, it can be seen that convergence has not fully occurred and that there is a chance it will occur at the same level of accuracy as it does for `classical` given more epochs.
 
 Previous Results          |  New Results
 :-------------------------:|:-------------------------:
@@ -27,8 +29,16 @@ Previous Results          |  New Results
 :-------------------------:|:-------------------------:
 ![](png/old_layer/validation_acc.png)  |  ![](png/new_layer/validation_acc.png)
 
+## Future Plans
+
+The models will be trained for longer. While it is evident that the hybrid models do not converge nearly as fast as `classical`, it is worth exploring the possibility of whether or not they achieve the same accuracy and loss upon convergence. Once this is done, inference will be conducted on quantum machines via the AWS NISQ devices in order to test our trained models on actual quantum circuits.
+
+Once that is completed, work will begin to simultaneously improve the efficiency of our quanvolutional layer and to try and implement it within more established feature extraction backbones such as MobileNetV2. Currently, our working hybrid version eponymously titled [QuobileNet](networks/backbones/quobilenet.py) takes a large period of time per picture. We plan to modify the hyperparameters (kernel sizes, feature map input and output depth for convolutions, etc) in order to bring the training time down and train the model. Finally, we plan to make comparisons with the established performances of the classic version of MobileNetV2 before using it as a backbone for RetinaNet and evaluating its performance as an object detector.
+
+In the long term, we hope to see improvements in accuracy and model capacity when using hybrid quantum-classical models of neural networks and we hope that our work on the quonvolutional layer brings us one step closer to that goal.
+
 ## Instructions
-### To Run the Hybrid Version of SimpleNet (i.e. QuanvNet)
+### To Run QuanvNet
 ```
 python main.py
 ```
@@ -36,14 +46,19 @@ The above will run the network on your local CPU. The following flags can modify
 
 `--floq_key *YOUR FLOQ API KEY*` will enable the use of Floq if applicable.
 
-`--classic` will switch the backbone to the pure classical version (SimpleNet)
+`--classical` will switch the backbone to the pure classical version (SimpleNet)
 
 `--gpu` will use your GPUs.
 
-For example, to run our network on the floq device and use GPUs:
+For example, to run the classical version and use GPUs:
+```
+python main.py --gpu --classical
+```
+Or to use Floq:
 ```
 python main.py --gpu --floq_key *YOUR FLOQ API KEY*
 ```
+
 ### Dependencies
 Our codebase works with both `Python==3.7` and `Python==3.8`. In addition, we also use `Pytorch==1.7.1` and `torchvision==0.8.2`. The rest of the dependencies can be installed from the command line via `pip`:
 ```
