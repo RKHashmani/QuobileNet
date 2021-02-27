@@ -4,11 +4,11 @@ import numpy as np
 
 with open('eval_stats/log_validation_classic.csv', 'r') as f:
     reader = csv.reader(f, delimiter=',')
-    classical = np.array(list(reader)).astype(float)[:70, :]
+    classical = np.array(list(reader)).astype(float)[:86, :]
 
 with open('eval_stats/log_validation_quantum_depth_1.csv', 'r') as f:
     reader = csv.reader(f, delimiter=',')
-    quantum = np.array(list(reader)).astype(float)
+    quantum = np.array(list(reader)).astype(float)[:86, :]
 
 with open('eval_stats/log_validation_quantum_depth_2.csv', 'r') as f:
     reader = csv.reader(f, delimiter=',')
