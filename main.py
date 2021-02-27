@@ -14,8 +14,8 @@ from networks.backbones.QuanvNet import QuanvNet
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--floq_key', default=None, type=str, help='Your Floq Api Key')
-parser.add_argument('--classic', action='store_true',
-                    help='Use this argument to switch to the pure classic backbone.')
+parser.add_argument('--classical', action='store_true',
+                    help='Use this argument to switch to the pure classical backbone.')
 parser.add_argument('--gpu', action='store_true', help='Use this argument to allow the use of GPUs.')
 parser = parser.parse_args()
 
@@ -89,12 +89,12 @@ train_loader = torch.utils.data.DataLoader(dataset=train_data, batch_size=batch_
 test_loader = torch.utils.data.DataLoader(dataset=test_data, batch_size=batch_size, shuffle=False)
 
 # Loading the model
-if parser.classic:
+if parser.classical:
     print("Using Classical Backbone")
 else:
     print("Using Quantum-Classical Hybrid Backbone")
 
-net = SimpleNet().to(device) if parser.classic else QuanvNet().to(device)
+net = SimpleNet().to(device) if parser.classical else QuanvNet().to(device)
 
 # print(net)
 
