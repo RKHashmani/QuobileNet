@@ -1,7 +1,7 @@
 # QuobileNet
 A work-in-progress MobileNetV2-based Hybrid Quantum-Classical Object Detector. Currently it modifies a simple, self-made CNN model ([SimpleNet](networks/backbones/SimpleNet.py)) whose classical version achieves an average accuracy of 99.60% on a 3-class classification problem using numbers 0, 6, and 9 from the [MNIST](http://yann.lecun.com/exdb/mnist/) dataset. We replaced one of the 4 convolutional layers with a quantum equivalent: a [quanvolutional layer](networks/backbones/custom_layers/QuanvLayer.py), in order to create [QuanvNet](networks/backbones/QuanvNet.py).
 
-For more information, the results of our current training, and instructions on how to run, please see below.
+For [instructions](#instructions) on how to run, please see below (or click the hyperlink).
 
 ## Introduction
 
